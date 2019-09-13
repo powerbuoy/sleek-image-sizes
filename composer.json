@@ -9,6 +9,5 @@
     ],
     "autoload": {
         "files": ["sleek-image-sizes.php"]
-    },
-    "require": {}
+    }
 }
