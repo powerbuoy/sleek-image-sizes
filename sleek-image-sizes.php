@@ -102,10 +102,10 @@ function register ($width, $height, $crop = ['center', 'center'], $additionalSiz
 			$newSizes = [];
 
 			foreach ($additionalSizes as $size => $config) {
-				$newSizes[$size . '_thumbnail'] = __(ucfirst(str_replace('_', ' ', $size))) . ' (' . __('Thumbnail') . ')';
-				$newSizes[$size . '_medium'] = __(ucfirst(str_replace('_', ' ', $size))) . ' (' . __('Medium') . ')';
-				$newSizes[$size . '_medium_large'] = __(ucfirst(str_replace('_', ' ', $size))) . ' (' . __('Medium large') . ')';
-				$newSizes[$size . '_large'] = __(ucfirst(str_replace('_', ' ', $size))) . ' (' . __('Large') . ')';
+				$newSizes[$size . '_thumbnail'] = __(ucfirst(str_replace('_', ' ', $size)), 'sleek') . ' (' . __('Thumbnail') . ')';
+				$newSizes[$size . '_medium'] = __(ucfirst(str_replace('_', ' ', $size)), 'sleek') . ' (' . __('Medium') . ')';
+				$newSizes[$size . '_medium_large'] = __(ucfirst(str_replace('_', ' ', $size)), 'sleek') . ' (' . __('Medium large') . ')';
+				$newSizes[$size . '_large'] = __(ucfirst(str_replace('_', ' ', $size)), 'sleek') . ' (' . __('Large') . ')';
 			}
 
 			return array_merge($sizes, $newSizes);
