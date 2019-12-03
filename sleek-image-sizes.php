@@ -1,45 +1,100 @@
 <?php
 namespace Sleek\ImageSizes;
 
+function get_image_sizes ($width, $height) {
+	$sizes = [];
+
+	# Both are 9999
+	if ($width === 9999 and $height === 9999) {
+		$sizes['width25'] = $width;
+		$sizes['width50'] = $width;
+		$sizes['width75'] = $width;
+		$sizes['width100'] = $width;
+
+		$sizes['height25'] = $height;
+		$sizes['height50'] = $height;
+		$sizes['height75'] = $height;
+		$sizes['height100'] = $height;
+	}
+	# Only width is 9999
+	elseif ($width === 9999) {
+		$sizes['width25'] = $width;
+		$sizes['width50'] = $width;
+		$sizes['width75'] = $width;
+		$sizes['width100'] = $width;
+
+		$sizes['height25'] = $height * .25;
+		$sizes['height50'] = $height * .5;
+		$sizes['height75'] = $height * .75;
+		$sizes['height100'] = $height;
+	}
+	# Only height is 9999
+	elseif ($height === 9999) {
+		$sizes['width25'] = $width * .25;
+		$sizes['width50'] = $width * .5;
+		$sizes['width75'] = $width * .75;
+		$sizes['width100'] = $width;
+
+		$sizes['height25'] = $height;
+		$sizes['height50'] = $height;
+		$sizes['height75'] = $height;
+		$sizes['height100'] = $height;
+	}
+	# None are 9999
+	else {
+		$aspectRatio = $width / $height;
+
+		$sizes['width25'] = $width * .25;
+		$sizes['width50'] = $width * .5;
+		$sizes['width75'] = $width * .75;
+		$sizes['width100'] = $width;
+
+		$sizes['height25'] = $sizes['width25'] / $aspectRatio;
+		$sizes['height50'] = $sizes['width50'] / $aspectRatio;
+		$sizes['height75'] = $sizes['width75'] / $aspectRatio;
+		$sizes['height100'] = $height;
+	}
+
+	return $sizes;
+}
+
 function register ($width, $height, $crop = ['center', 'center'], $additionalSizes = false) {
-	$aspectRatio = $width / $height;
+	$sizes = get_image_sizes($width, $height);
 
 	# Override WP's built-in sizes
-	update_option('thumbnail_size_w', ($width * .25));
-	update_option('thumbnail_size_h', ($width * .25) / $aspectRatio);
+	update_option('thumbnail_size_w', $sizes['width25']);
+	update_option('thumbnail_size_h', $sizes['height25']);
 	update_option('thumbnail_crop', 1);
 
-	update_option('medium_size_w', ($width * .5));
-	update_option('medium_size_h', ($width * .5) / $aspectRatio);
+	update_option('medium_size_w', $sizes['width50']);
+	update_option('medium_size_h', $sizes['height50']);
 	update_option('medium_crop', 1);
 
-	update_option('medium_large_size_w', ($width * .75));
-	update_option('medium_large_size_h', ($width * .75) / $aspectRatio);
+	update_option('medium_large_size_w', $sizes['width75']);
+	update_option('medium_large_size_h', $sizes['height75']);
 	update_option('medium_large_crop', 1);
 
-	update_option('large_size_w', $width);
-	update_option('large_size_h', $height);
+	update_option('large_size_w', $sizes['width100']);
+	update_option('large_size_h', $sizes['height100']);
 	update_option('large_crop', 1);
 
 	# Now set the sizes again so we can specify our own crop (note that if you only use this (and remove the above) users can still change the size in the admin)
-	add_image_size('thumbnail', ($width * .25), ($width * .25) / $aspectRatio, $crop);
-	add_image_size('medium', ($width * .5), ($width * .5) / $aspectRatio, $crop);
-	add_image_size('medium_large', ($width * .75), ($width * .75) / $aspectRatio, $crop);
-	add_image_size('large', $width, $height, $crop);
+	add_image_size('thumbnail', $sizes['width25'], $sizes['height25'], $crop);
+	add_image_size('medium', $sizes['width50'], $sizes['height50'], $crop);
+	add_image_size('medium_large', $sizes['width75'], $sizes['height75'], $crop);
+	add_image_size('large', $sizes['width100'], $sizes['height100'], $crop);
 
 	# Add additional sizes
 	if ($additionalSizes) {
 		foreach ($additionalSizes as $size => $config) {
-			$width = $config['width'];
-			$height = $config['height'];
-			$aspectRatio = $width / $height;
+			$sizes = get_image_sizes($config['width'], $config['height']);
 			$crop = isset($config['crop']) ? $config['crop'] : $crop;
 
 			# Add all 4 size variants for srcset
-			add_image_size($size . '_thumbnail', ($width * .25), ($width * .25) / $aspectRatio, $crop);
-			add_image_size($size . '_medium', ($width * .5), ($width * .5) / $aspectRatio, $crop);
-			add_image_size($size . '_medium_large', ($width * .75), ($width * .75) / $aspectRatio, $crop);
-			add_image_size($size . '_large', $width, $height, $crop);
+			add_image_size($size . '_thumbnail', $sizes['width25'], $sizes['height25'], $crop);
+			add_image_size($size . '_medium', $sizes['width50'], $sizes['height50'], $crop);
+			add_image_size($size . '_medium_large', $sizes['width75'], $sizes['height75'], $crop);
+			add_image_size($size . '_large', $sizes['width100'], $sizes['height100'], $crop);
 		}
 
 		# Also add our own sizes to the image-size dropdown in the admin
