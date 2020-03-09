@@ -1,5 +1,6 @@
 {
     "name": "powerbuoy/sleek-image-sizes",
+    "description": "Utility functions for registering WordPress image sizes.",
     "license": "GPL-2.0-or-later",
     "authors": [
         {

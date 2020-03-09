@@ -1,4 +1,10 @@
-# Sleek Image Sizes
+# [Sleek Image Sizes](https://github.com/powerbuoy/sleek-image-sizes/)
+
+[![Packagist](https://img.shields.io/packagist/vpre/powerbuoy/sleek-image-sizes.svg?style=flat-square)](https://packagist.org/packages/powerbuoy/sleek-image-sizes)
+[![GitHub license](https://img.shields.io/github/license/powerbuoy/sleek-image-sizes.svg?style=flat-square)](https://github.com/powerbuoy/sleek-image-sizes/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/powerbuoy/sleek-image-sizes.svg?style=flat-square)](https://github.com/powerbuoy/sleek-image-sizes/issues)
+[![GitHub forks](https://img.shields.io/github/forks/powerbuoy/sleek-image-sizes.svg?style=flat-square)](https://github.com/powerbuoy/sleek-image-sizes/network)
+[![GitHub stars](https://img.shields.io/github/stars/powerbuoy/sleek-image-sizes.svg?style=flat-square)](https://github.com/powerbuoy/sleek-image-sizes/stargazers)
 
 Utility functions for registering WordPress image sizes.
 
